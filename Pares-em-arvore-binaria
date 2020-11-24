@@ -1,0 +1,42 @@
+program arvore;
+type ABB = ^nodo;
+    nodo = record
+        dir:ABB;
+        info:integer;
+        esq:ABB;
+end;
+Function pares(a:ABB):integer;
+var aux:integer;
+begin
+    if(a = nil)then                
+    pares := 0
+    else
+    begin
+    aux := 0;
+    if(a^.info mod 2 = 0)then       
+    aux := 1;
+    if((a^.esq <> nil) and(a^.dir <> nil))then          
+    pares:= pares(a^.esq) + pares(a^.dir) + aux;        
+    if((a^.esq <> nil) and(a^.dir = nil))then           
+    pares:= aux + pares(a^.esq);
+    if((a^.esq = nil) and(a^.dir <> nil))then           
+    pares:= aux + pares(a^.dir);
+    if((a^.esq = nil) and(a^.dir = nil))then            
+    pares:= aux;
+    end;
+    
+end;
+var raiz:ABB;
+var q:ABB;
+begin
+new(raiz);
+raiz^.info := 2;
+new(q);
+q^.info := 4;
+q^.esq := nil;
+q^.dir := nil;
+raiz^.dir := q;
+raiz^.esq := nil;
+
+writeln(pares(raiz));
+end.
